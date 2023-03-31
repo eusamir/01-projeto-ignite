@@ -1,7 +1,14 @@
 import { ThumbsUp, Trash } from 'phosphor-react'
 import styles from './Comment.module.css'
-
-export function Comment(){
+interface ContentProps{
+    content: string
+    deleteComment:any
+}
+export function Comment({content, deleteComment}:ContentProps){
+    function handleDeleteComment(){
+        deleteComment(content);
+        
+    }
     return(
         <div className={styles.comment}>
             <img src="https://github.com/eualex.png"/>
@@ -14,11 +21,11 @@ export function Comment(){
                             <time title='11 de Maio às 8:10h' dateTime='2022-05-11 8:10:28'>Cerca de 1h atrás</time>
                         </div>
 
-                        <button title='Deletar comentário'>
+                        <button onClick={handleDeleteComment} title='Deletar comentário'>
                             <Trash size={24} />
                         </button>
                     </header>
-                    <p>Muito bom Samir, parabéns!!</p>
+                    <p>{content}</p>
                 </div>
 
                 <footer>
