@@ -34,12 +34,22 @@ interface PostProps {
     }
 
     function handleNewCommentChange(){
-        setNewCommentValue(event?.target.value);
+        event.target.setCustomValidity('')
+        setNewCommentValue(event.target.value);
     }
 
-    function deleteComment(comment){
-        console.log(`Deletar comentario ${comment}`);
+    function handleInvalidComment(){
+        event.target.setCustomValidity('Esse campo é obrigátorio!')
     }
+
+    function deleteComment(commentToDelete:any){
+        const commentWithoutDeletedOne = comment.filter(comment=>{
+            return comment != commentToDelete
+        })
+        setComment(commentWithoutDeletedOne);
+    }
+
+    const isNewCommentEmpty = newCommentValue.length === 0
 
     return(
         <article className={styles.post}>
@@ -71,16 +81,23 @@ interface PostProps {
                     name='comment'
                     placeholder="Deixe um comentário"
                     value={newCommentValue}
+                    onInvalid={handleInvalidComment}
                     onChange={handleNewCommentChange}
+                    required
                 />
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button type='submit' disabled={isNewCommentEmpty}>
+                        Publicar
+                    </button>
                 </footer>
             </form>
 
             <div className={styles.commentList}>
                 {comment.map(comment=>{
-                    return <Comment key={comment} content={comment} deleteComment={deleteComment}/>
+                    return <Comment 
+                    key={comment}
+                    content={comment}
+                    deleteComment={deleteComment}/>
                 })}
             </div>
         </article>

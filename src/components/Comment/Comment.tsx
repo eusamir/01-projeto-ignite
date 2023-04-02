@@ -1,14 +1,25 @@
 import { ThumbsUp, Trash } from 'phosphor-react'
+import { useState } from 'react'
 import styles from './Comment.module.css'
 interface ContentProps{
     content: string
     deleteComment:any
 }
 export function Comment({content, deleteComment}:ContentProps){
+    const [like, setLike] = useState(0)
+
     function handleDeleteComment(){
         deleteComment(content);
         
     }
+
+    function handleLikeComment(){
+       setLike((state)=>{
+           return state+1
+       })
+        
+    }
+
     return(
         <div className={styles.comment}>
             <img src="https://github.com/eualex.png"/>
@@ -29,9 +40,9 @@ export function Comment({content, deleteComment}:ContentProps){
                 </div>
 
                 <footer>
-                    <button>
+                    <button onClick={handleLikeComment}>
                         <ThumbsUp/>
-                        Aplaudir <span>20</span>
+                        Aplaudir <span>{like}</span>
                     </button>
                 </footer>
             </div>
